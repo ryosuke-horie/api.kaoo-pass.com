@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  # PHPをLambda上で実行する環境を再現したコンテナ
+  # @see https://bref.sh/docs/local-development 公式ドキュメント ローカル環境構築を解説しているページ
+  app:
+    container_name: bref-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: ["8000:8000"]
+    # ホスト側のカレントディレクトリをコンテナ側の/var/taskにマウント
+    # Lambdaでは/var/taskにコードが配置される。
+    # 本来は書き込みができない（読み取り専用）が、ローカル環境では書き込みができるようになっている。
+    volumes:
+      - .:/var/task:rw
+      - ./storage:/var/task/storage:rw
+      - ./storage/framework/views:/tmp/storage/framework/views:rw
+      - ./storage/framework/cache:/tmp/storage/framework/cache:rw
+    environment:
+      HANDLER: public/index.php
+      DOCUMENT_ROOT: public
+
+  # テスト用のPostgresコンテナ
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
