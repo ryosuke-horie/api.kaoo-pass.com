@@ -58,7 +58,9 @@
             "./vendor/bin/pint"
         ],
         "test": [
-            "php artisan config:clear && php artisan config:cache --env=testing && php artisan test"
+            "php artisan config:clear",
+            "php artisan config:cache --env=testing",
+            "php artisan test"
         ]
     },
     "extra": {
