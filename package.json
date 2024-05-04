@@ -6,7 +6,8 @@
     },
     "devDependencies": {
         "axios": "^1.6.4",
+        "husky": "^9.0.11",
         "laravel-vite-plugin": "^1.0",
-        "husky": "^9.0.11"
+        "serverless-domain-manager": "^7.3.8"
     }
 }
